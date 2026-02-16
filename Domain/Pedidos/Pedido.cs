@@ -1,6 +1,7 @@
-//using PedidosEDA.Domain.Pedidos.PedidoItem;
+using System.Text.Json.Serialization;
 
 namespace PedidosEDA.Domain.Pedidos;
+
 public enum PedidoStatus
 {
     Criado = 1,
@@ -9,29 +10,37 @@ public enum PedidoStatus
 
 public sealed class Pedido
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    [JsonInclude]
+    public Guid Id { get; private set; } 
     public DateTime CriadoEm { get; private set; } = DateTime.UtcNow;
     public PedidoStatus Status { get; private set; } = PedidoStatus.Criado;
 
-    public string ClienteNome { get; private set; }
-    private readonly List<PedidoItem> _itens = new();
-    public IReadOnlyList<PedidoItem> Itens => _itens;
+    [JsonInclude]
+    public string ClienteNome { get; private set; } = "";
 
-    public decimal Total => _itens.Sum(i => i.Total);
+    [JsonInclude]
+    public List<PedidoItem> Itens { get; private set; } = new();
+
+    public decimal Total => Itens.Sum(i => i.Total);
+
+    public Pedido() { } // necessário pro JSON
 
     public Pedido(string clienteNome)
     {
-        if (string.IsNullOrWhiteSpace(clienteNome)) throw new ArgumentException("Cliente inválido");
+        Id = Guid.NewGuid();
+
+        if (string.IsNullOrWhiteSpace(clienteNome))
+            throw new ArgumentException("Cliente inválido");
+
         ClienteNome = clienteNome.Trim();
     }
 
     public void AdicionarItem(string nome, int qtd, decimal preco) =>
-        _itens.Add(new PedidoItem(nome, qtd, preco));
+        Itens.Add(new PedidoItem(nome, qtd, preco));
 
     public void Cancelar(string motivo)
     {
         if (Status == PedidoStatus.Cancelado) return;
         Status = PedidoStatus.Cancelado;
-        // motivo entra melhor em um evento (ex: PedidoCancelado)
     }
 }
