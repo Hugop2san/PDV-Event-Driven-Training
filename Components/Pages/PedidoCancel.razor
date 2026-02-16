@@ -1,0 +1,40 @@
+@page "/pedidos/cancelar"
+@inject Application.Pedidos.PedidoService Service
+
+<h3 class="mb-3">Cancelar pedido</h3>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="mb-2 text-muted small">
+            Cole o GUID completo do pedido (você vê na lista de pedidos).
+        </div>
+
+        <input class="form-control mb-2" placeholder="PedidoId (GUID)" @bind="_id" />
+        <input class="form-control mb-3" placeholder="Motivo" @bind="_motivo" />
+
+        <button class="btn btn-danger" @onclick="Cancelar">Cancelar e publicar evento</button>
+
+        @if (!string.IsNullOrWhiteSpace(_msg))
+        {
+            <div class="alert alert-info mt-3 mb-0">@_msg</div>
+        }
+    </div>
+</div>
+
+@code {
+    string _id = "";
+    string _motivo = "Cliente desistiu";
+    string _msg = "";
+
+    async Task Cancelar()
+    {
+        if (!Guid.TryParse(_id, out var guid))
+        {
+            _msg = "GUID inválido.";
+            return;
+        }
+
+        await Service.CancelarAsync(guid, _motivo);
+        _msg = "Cancelamento solicitado. Handlers do evento executados.";
+    }
+}

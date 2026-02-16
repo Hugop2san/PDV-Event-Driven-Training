@@ -1,0 +1,47 @@
+@page "/pedidos"
+@inject Application.Abstractions.IPedidoRepository Repo
+
+<h3 class="mb-3">Monitorar pedidos</h3>
+
+<input class="form-control mb-3" placeholder="Filtrar por cliente..." @bind="_q" />
+
+<table class="table table-hover align-middle">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Criado em</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in _pedidosFiltrados)
+        {
+            <tr>
+                <td class="text-muted small">@p.Id.ToString()[..8]</td>
+                <td>@p.ClienteNome</td>
+                <td>
+                    <span class="badge @(p.Status == Domain.Pedidos.PedidoStatus.Criado ? "bg-success" : "bg-secondary")">
+                        @p.Status
+                    </span>
+                </td>
+                <td>@p.Total.ToString("C")</td>
+                <td class="text-muted small">@p.CriadoEm.ToLocalTime()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    string _q = "";
+    List<Domain.Pedidos.Pedido> _pedidos = new();
+
+    IEnumerable<Domain.Pedidos.Pedido> _pedidosFiltrados =>
+      string.IsNullOrWhiteSpace(_q)
+        ? _pedidos
+        : _pedidos.Where(p => p.ClienteNome.Contains(_q, StringComparison.OrdinalIgnoreCase));
+
+    protected override async Task OnInitializedAsync()
+      => _pedidos = await Repo.GetAllAsync();
+}

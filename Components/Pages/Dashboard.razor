@@ -1,0 +1,63 @@
+@page "/"
+@inject Application.Abstractions.IPedidoRepository Repo
+
+<h3 class="mb-3">Dashboard</h3>
+
+@if (_loading)
+{
+    <div class="text-muted">Carregando...</div>
+}
+else
+{
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Pedidos (total)</div>
+                    <div class="display-6 fw-semibold">@_total</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Pedidos criados</div>
+                    <div class="display-6 fw-semibold">@_criados</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Cancelados</div>
+                    <div class="display-6 fw-semibold">@_cancelados</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <div class="text-muted small">Receita (somente pedidos criados)</div>
+            <div class="display-6 fw-semibold">@_receita.ToString("C")</div>
+        </div>
+    </div>
+}
+
+@code {
+    bool _loading = true;
+    int _total, _criados, _cancelados;
+    decimal _receita;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var pedidos = await Repo.GetAllAsync();
+        _total = pedidos.Count;
+        _criados = pedidos.Count(p => p.Status == Domain.Pedidos.PedidoStatus.Criado);
+        _cancelados = pedidos.Count(p => p.Status == Domain.Pedidos.PedidoStatus.Cancelado);
+        _receita = pedidos.Where(p => p.Status == Domain.Pedidos.PedidoStatus.Criado).Sum(p => p.Total);
+        _loading = false;
+    }
+}
