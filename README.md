@@ -1,13 +1,15 @@
-﻿1- <img width="1920" height="887" alt="image" src="https://github.com/user-attachments/assets/77e4de66-7879-4732-b4d2-9f31d51a7eab" />
+# Mini PDV • EDA + DDD + Blazor
+
+Mini projeto de estudo simulando um 
+ 
+1- <img width="1920" height="887" alt="image" src="https://github.com/user-attachments/assets/77e4de66-7879-4732-b4d2-9f31d51a7eab" />
 2- <img width="1919" height="888" alt="image" src="https://github.com/user-attachments/assets/4c37a117-f023-4f9e-ac1f-4a86ca4abfd2" />
 3- <img width="1920" height="885" alt="image" src="https://github.com/user-attachments/assets/42945d2a-3e55-4c83-98e9-803513cb1057" />
 4- <img width="1920" height="891" alt="image" src="https://github.com/user-attachments/assets/f4db47d9-fa34-4f32-ab9a-6307d4e7bae9" />
 
 ---
 
-# Mini PDV • EDA + DDD + Blazor
-
-Mini projeto de estudo simulando um **PDV (Ponto de Venda)** com foco em **Event-Driven Architecture (EDA)** aplicada a um **DDD simplificado**, utilizando **Blazor (.NET 8)**.
+**PDV (Ponto de Venda)** com foco em **Event-Driven Architecture (EDA)** aplicada a um **DDD simplificado**, utilizando **Blazor (.NET 8)**.
 
 ## Objetivo
 
