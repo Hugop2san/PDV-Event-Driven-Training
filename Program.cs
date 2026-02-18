@@ -1,10 +1,11 @@
+using Application.Pedidos.Handlers;
 using PedidosEDA.Application.Abstractions;
 using PedidosEDA.Application.Pedidos;
-//using Application.Pedidos.Handlers;
-using PedidosEDA.Infrastructure.Bus;
-using PedidosEDA.Infrastructure.Storage;
-
 using PedidosEDA.Components;
+using PedidosEDA.Domain.Pedidos;
+using PedidosEDA.Infrastructure.Bus;
+using PedidosEDA.Infrastructure.Events;
+using PedidosEDA.Infrastructure.Storage;
 
 
 
@@ -16,16 +17,19 @@ builder.Services.AddRazorComponents()
 
 //DI do backend do projeto
 builder.Services.AddScoped<BrowserLocalStorage>();
+
 builder.Services.AddScoped<IPedidoRepository, PedidoRepositoryLocalStorage>();
 
 builder.Services.AddScoped<IEventBus, InMemoryEventBus>();
 
 builder.Services.AddScoped<PedidoService>();
 
+builder.Services.AddSingleton<InMemoryEventLog>();
+
 // ADCIIONAR CONTEUDO NO APPLICATION/HANDLES/HANDLES.CS
-//builder.Services.AddScoped<IEventHandler<Domain.Pedidos.PedidoCriado>, ReservarEstoqueOnPedidoCriado>();
-//builder.Services.AddScoped<IEventHandler<Domain.Pedidos.PedidoCriado>, NotificarOnPedidoCriado>();
-//builder.Services.AddScoped<IEventHandler<Domain.Pedidos.PedidoCancelado>, AuditoriaOnPedidoCancelado>();
+builder.Services.AddScoped<IEventHandler<PedidoCriado>, ReservarEstoqueOnPedidoCriado>();
+builder.Services.AddScoped<IEventHandler<PedidoCriado>, NotificarOnPedidoCriado>();
+builder.Services.AddScoped<IEventHandler<PedidoCancelado>, AuditoriaOnPedidoCancelado>();
 
 
 var app = builder.Build();

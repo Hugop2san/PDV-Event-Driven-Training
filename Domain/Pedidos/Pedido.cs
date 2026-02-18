@@ -43,4 +43,10 @@ public sealed class Pedido
         if (Status == PedidoStatus.Cancelado) return;
         Status = PedidoStatus.Cancelado;
     }
+
+    public int QuantidadeTotalItens => Itens.Sum(i => i.Quantidade);
+
+    public string ProdutosResumo =>
+        string.Join(", ", Itens.Select(i => i.Nome));
+
 }

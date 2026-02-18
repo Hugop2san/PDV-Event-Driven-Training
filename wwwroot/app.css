@@ -122,10 +122,6 @@ main {
         border-bottom-color: rgba(255,255,255,0.12);
     }
 
-.table-hover tbody tr:hover {
-    background: rgba(255,255,255,0.05);
-}
-
 /* Forms (corrige “gigante/sem estilo”) */
 .form-control, .form-select, textarea {
     border-radius: .85rem;
@@ -194,4 +190,22 @@ main {
 
 /* ===== Erro Blazor UI ===== */
 #blazor-error-ui {
-    background: rgba(1
+    background: white;
+}
+
+.table-hover > tbody > tr {
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .table-hover > tbody > tr:hover > * {
+        background-color: rgba(124, 58, 237, 0.15) !important;
+        color: #ffffff !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        box-shadow: inset 4px 0 0 #7c3aed;
+    }
+
+
+
+

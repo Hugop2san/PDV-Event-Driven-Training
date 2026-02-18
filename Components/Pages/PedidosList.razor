@@ -11,6 +11,8 @@
             <th>ID</th>
             <th>Cliente</th>
             <th>Status</th>
+            <th>Qnt Total</th>
+            <th>Produto</th>
             <th>Total</th>
             <th>Criado em</th>
         </tr>
@@ -25,6 +27,19 @@
                     <span class="badge @(p.Status == Domain.Pedidos.PedidoStatus.Criado ? "bg-success" : "bg-secondary")">
                         @p.Status
                     </span>
+                </td>
+                <td>
+                    <span class="badge ">
+                        @p.QuantidadeTotalItens x
+                    </span>
+                </td>
+                <td>
+                    @foreach (var item in p.Itens)
+                    {
+                        <div class="small">
+                            @item.Quantidade x @item.Nome 
+                        </div>
+                    }
                 </td>
                 <td>@p.Total.ToString("C")</td>
                 <td class="text-muted small">@p.CriadoEm.ToLocalTime()</td>
