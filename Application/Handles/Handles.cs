@@ -15,7 +15,7 @@ public sealed class ReservarEstoqueOnPedidoCriado : IEventHandler<PedidoCriado>
     public Task HandleAsync(PedidoCriado e)
     {
         // Simula baixa/Reserva de estoque
-        _log.Add($"[Estoque] Reservado para pedido {e.PedidoId}");
+        _log.Add($"[RESERVA NO ESTOQUE] Reservado para o pedido {e.PedidoId}");
         return Task.CompletedTask;
     }
 }
@@ -29,7 +29,7 @@ public sealed class NotificarOnPedidoCriado : IEventHandler<PedidoCriado>
         => _log = log;
     public Task HandleAsync(PedidoCriado e)
     {
-        _log.Add($"[Notify] Pedido {e.PedidoId} criado. Total: {e.Total}");
+        _log.Add($"[PEDIDO CRIADO] Pedido {e.PedidoId} criado.\nValor Total: ${e.Total}");
         return Task.CompletedTask;
     }
 }
@@ -44,7 +44,7 @@ public sealed class AuditoriaOnPedidoCancelado : IEventHandler<PedidoCancelado>
 
     public Task HandleAsync(PedidoCancelado e)
     {
-        _log.Add($"[Audit] Pedido {e.PedidoId} cancelado. Motivo: {e.Motivo}");
+        _log.Add($"[CANCELAMENTO] Pedido {e.PedidoId} cancelado.\nMotivo: {e.Motivo}");
         return Task.CompletedTask;
     }
 }

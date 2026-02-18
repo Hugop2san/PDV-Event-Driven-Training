@@ -207,5 +207,51 @@ main {
     }
 
 
+/* Estilizações sobre o modal de notificações */
+
+
+.modal-backdrop-blazor {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 99998;
+}
+
+.modal-blazor {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 99999;
+}
+
+.modal-card {
+    width: min(720px,95vw);
+    max-height: 80vh;
+    overflow: auto;
+    border-radius: 1rem;
+    background: rgba(20,24,40,.92);
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .9rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.modal-body {
+    padding: 1rem;
+}
+
+.copy-id:hover {
+    text-decoration: underline;
+    color: #a78bfa;
+}
+
 
 

@@ -13,6 +13,8 @@ public sealed class Pedido
     [JsonInclude]
     public Guid Id { get; private set; } 
     public DateTime CriadoEm { get; private set; } = DateTime.UtcNow;
+
+    [JsonInclude]
     public PedidoStatus Status { get; private set; } = PedidoStatus.Criado;
 
     [JsonInclude]

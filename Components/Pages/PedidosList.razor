@@ -1,5 +1,7 @@
-@page "/pedidos"
+﻿@page "/pedidos"
 @inject Application.Abstractions.IPedidoRepository Repo
+@inject IJSRuntime JS
+
 
 <h3 class="mb-3">Monitorar pedidos</h3>
 
@@ -21,7 +23,21 @@
         @foreach (var p in _pedidosFiltrados)
         {
             <tr>
-                <td class="text-muted small">@p.Id.ToString()[..8]</td>
+                
+                <td class="copy-id text-muted small">
+                    <span style="cursor:pointer;"
+                          title="Clique para copiar"
+                          @onclick="() => CopiarId(p.Id)">
+                        @p.Id.ToString()[..8]
+                    </span>
+
+                    @if (_copiadoId == p.Id)
+                    {
+                        <span class="ms-2 text-success small">✓ Copiado</span>
+                    }
+                </td>
+
+                
                 <td>@p.ClienteNome</td>
                 <td>
                     <span class="badge @(p.Status == Domain.Pedidos.PedidoStatus.Criado ? "bg-success" : "bg-secondary")">
@@ -30,7 +46,7 @@
                 </td>
                 <td>
                     <span class="badge ">
-                        @p.QuantidadeTotalItens x
+                        @p.QuantidadeTotalItens
                     </span>
                 </td>
                 <td>
@@ -59,4 +75,20 @@
 
     protected override async Task OnInitializedAsync()
       => _pedidos = await Repo.GetAllAsync();
+
+
+    Guid? _copiadoId;
+
+    async Task CopiarId(Guid id)
+    {
+        await JS.InvokeVoidAsync("navigator.clipboard.writeText", id.ToString());
+        _copiadoId = id;
+
+        await Task.Delay(1500);
+        _copiadoId = null;
+
+        StateHasChanged();
+    }
+
+
 }

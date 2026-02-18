@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace PedidosEDA.Domain.Pedidos;
 
 public sealed class PedidoItem
@@ -17,5 +19,6 @@ public sealed class PedidoItem
         PrecoUnitario = precoUnitario;
     }
 
+    
     public decimal Total => Quantidade * PrecoUnitario;
 }

@@ -1,6 +1,5 @@
 @page "/"
 @inject Application.Abstractions.IPedidoRepository Repo
-@inject PedidosEDA.Infrastructure.Events.InMemoryEventLog EventLog
 
 
 <h3 class="mb-3">Dashboard</h3>
@@ -42,21 +41,11 @@ else
 
     <div class="card shadow-sm mt-3">
         <div class="card-body">
-            <div class="text-muted small">Receita (somente pedidos criados)</div>
+            <div class="text-muted small">Receita</div>
             <div class="display-6 fw-semibold">@_receita.ToString("C")</div>
         </div>
     </div>
 
-    <div class="card mt-3">
-        <h5 class="mt-4">Últimos Eventos</h5>
-
-        <ul class="list-group">
-            @foreach (var e in EventLog.GetAll())
-            {
-                <li class="list-group-item">@e</li>
-            }
-        </ul>
-    </div>
 
 
 
