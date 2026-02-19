@@ -1,0 +1,8 @@
+services:
+  pedidoseda:
+    image: pedidoseda:1.0
+    container_name: pedidoseda
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production

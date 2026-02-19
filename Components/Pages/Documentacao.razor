@@ -1,0 +1,129 @@
+﻿@page "/pedidos/documentacao"
+
+<h3 class="mb-3">Documentação – PDV - Arquitetura orientada a eventos</h3>
+
+<div class="alert alert-secondary">
+    <strong>Intenção:</strong> Demonstrar um monólito simples com <strong>EDA parcial</strong> (eventos internos)
+    para desacoplamento de efeitos colaterais (handlers).
+</div>
+
+<div class="row g-3">
+
+    <!-- COLUNA ESQUERDA: Fluxo -->
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Fluxo real da aplicação</h5>
+
+                <div class="small text-muted mb-2">
+                    Resumo direto (como acontece no código):
+                </div>
+
+                <div class="p-3 rounded border" style="background: rgba(255,255,255,.04);">
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        <span class="badge bg-info text-dark mt-1">1</span>
+                        <div>
+                            <strong>UI(Blazor)</strong> → chama <strong>PedidoService</strong>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        <span class="badge bg-info text-dark mt-1">2</span>
+                        <div>
+                            <strong>PedidoService</strong> → publica evento no <strong>EventBus</strong>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        <span class="badge bg-info text-dark mt-1">3</span>
+                        <div>
+                            <strong>EventBus</strong> → executa os <strong>handlers</strong>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        <span class="badge bg-info text-dark mt-1">4</span>
+                        <div>
+                            <strong>Handlers</strong> → escrevem no <strong>InMemoryEventLog</strong>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-2">
+                        <span class="badge bg-info text-dark mt-1">5</span>
+                        <div>
+                            <strong>UI</strong> → apenas lê o <strong>InMemoryEventLog</strong> e mostra em Notificacoes 🔔
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+            <div class="card-body">
+                <h5 class="card-title mb-2">Decisões e trade-offs</h5>
+                <ul class="mb-0">
+                    <li><strong>Sem Kafka/Rabbit:</strong> foco em arquitetura e entendimento do fluxo.</li>
+                    <li><strong>EventBus em memória:</strong> simples para demonstrar desacoplamento interno.</li>
+                    <li><strong>Trade-off:</strong> reiniciar app limpa estado do servidor (memória).</li>
+                    <li><strong>Evolução:</strong> broker + persistência + outbox (se virar produto).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLUNA DIREITA: Eventos e Handlers -->
+    <div class="col-12 col-lg-6">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Eventos de domínio</h5>
+
+                <div class="mb-3">
+                    <span class="badge bg-primary">PedidoCriado</span>
+                    <ul class="mt-2 mb-0">
+                        <li><strong>Quando:</strong> após criar um pedido</li>
+                        <li><strong>Payload:</strong> PedidoId, Total, CriadoEm</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="badge bg-danger">PedidoCancelado</span>
+                    <ul class="mt-2 mb-0">
+                        <li><strong>Quando:</strong> após cancelar um pedido</li>
+                        <li><strong>Payload:</strong> PedidoId, Motivo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Handlers (reações desacopladas)</h5>
+
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Para <strong>PedidoCriado</strong>:</div>
+                    <ul class="mb-0">
+                        <li><strong>ReservarEstoqueOnPedidoCriado</strong> → registra “reserva de estoque” no EventLog</li>
+                        <li><strong>NotificarOnPedidoCriado</strong> → registra “pedido criado / total” no EventLog</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="text-muted small mb-1">Para <strong>PedidoCancelado</strong>:</div>
+                    <ul class="mb-0">
+                        <li><strong>AuditoriaOnPedidoCancelado</strong> → registra “cancelamento / motivo” no EventLog</li>
+                    </ul>
+                </div>
+
+                <hr />
+
+                <div class="small text-muted">
+                    Nesta demo, os handlers escrevem no <strong>InMemoryEventLog</strong> para visualização na UI.
+                    Em um cenário real, poderiam disparar integrações (estoque, e-mail, mensageria, auditoria em DB etc.).
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

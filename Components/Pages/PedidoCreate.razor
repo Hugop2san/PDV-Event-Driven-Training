@@ -1,9 +1,19 @@
-@page "/pedidos/criar"
+﻿@page "/pedidos/criar"
 @inject Application.Pedidos.PedidoService Service
 
 <h3 class="mb-3">Criar pedido</h3>
 
+
 <div class="card shadow-sm">
+
+
+    @if (_mostrarSucesso)
+    {
+        <div class="alert alert-success mt-2">
+            @_mensagemalerta
+        </div>
+    }
+
     <div class="card-body">
         <div class="mb-3">
             <label class="form-label">Cliente</label>
@@ -20,8 +30,8 @@
                 <input class="form-control" type="number" placeholder="Qtd" @bind="_qtd" />
             </div>
             <div class="col-md-3">
-                <label class="form-label">Pre�o</label>
-                <input class="form-control" type="number" step="0.01" placeholder="Pre�o" @bind="_preco" />
+                <label class="form-label">Preço</label>
+                <input class="form-control" type="number" step="0.01" placeholder="Preço" @bind="_preco" />
             </div>
             <div class="col-md-2 d-grid">
                 <button class="btn btn-outline-primary" @onclick="AddItem">Adicionar</button>
@@ -40,8 +50,9 @@
                 @foreach (var i in _itens)
                 {
                     <li class="list-group-item d-flex justify-content-between">
-                        <span>@i.nome � x@i.qtd</span>
-                        <span class="text-muted">@((i.qtd * i.preco).ToString("C"))</span>
+                        <span>Produto: @i.nome</span>
+                        <span>Quantidade: @i.qtd</span>
+                        <span class="text-muted">Total: @((i.qtd * i.preco).ToString("C"))</span>
                     </li>
                 }
             </ul>
@@ -63,6 +74,9 @@
     string _nome = "Coca 2L";
     int _qtd=1;
     decimal _preco=10 ;
+    bool _mostrarSucesso = false;
+    string _mensagemalerta = "✅ Pedido criado com sucesso!";
+
 
     string _msg = "";
     List<(string nome, int qtd, decimal preco)> _itens = new();
@@ -79,5 +93,14 @@
         var id = await Service.CriarPedidoAsync(_cliente, _itens);
         _msg = $"Pedido criado: {id.ToString()[..8]} (handlers executados)";
         _itens.Clear();
+
+        // logica de um <span> avisando sobre atualização de pedido adicionado
+        _mostrarSucesso = true;
+        StateHasChanged();
+
+        await Task.Delay(1000);
+
+        _mostrarSucesso = false;
+        StateHasChanged();
     }
 }

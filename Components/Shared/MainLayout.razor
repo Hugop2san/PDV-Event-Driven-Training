@@ -1,17 +1,22 @@
 ﻿@inherits LayoutComponentBase
 @inject PedidosEDA.Infrastructure.Events.InMemoryEventLog EventLog
+@implements IDisposable
+
+
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
+    <div class="sidebar @(_menuOpen ? "open" : "")">
+        <NavMenu OnNavigate="CloseMenu" />
     </div>
+
+    <div class="sidebar-backdrop @(_menuOpen ? "show" : "")" @onclick="CloseMenu"></div>
 
     <main>
         <div class="top-row px-4">
-            <span class="text-white fw-semibold"></span>
+            <button class="btn btn-sm btn-outline-light d-md-none" @onclick="ToggleMenu">☰</button>
 
-            <button class="btn btn-sm btn-outline-light" @onclick="OpenEvents">
-               Notificações 🔔 <span class="badge bg-light text-dark ms-2">@EventLog.GetAll().Count</span>
+            <button class="btn btn-sm btn-outline-light ms-auto" @onclick="OpenEvents">
+                Notificações 🔔 <span class="badge bg-light text-dark ms-2">@EventLog.GetAll().Count</span>
             </button>
         </div>
 
@@ -20,6 +25,7 @@
         </article>
     </main>
 </div>
+
 
 @if (_showEvents)
 {
@@ -43,10 +49,28 @@
         </div>
     </div>
 }
-
 @code {
     private bool _showEvents;
+    private bool _menuOpen;
+
+    protected override void OnInitialized()
+    {
+        // quando algum handler adicionar log, atualiza o layout (badge 🔔)
+        EventLog.OnChange += HandleEventLogChanged;
+    }
+
+    private void HandleEventLogChanged()
+        => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        EventLog.OnChange -= HandleEventLogChanged;
+    }
+
+    void ToggleMenu() => _menuOpen = !_menuOpen;
+    void CloseMenu() => _menuOpen = false;
 
     void OpenEvents() => _showEvents = true;
     void CloseEvents() => _showEvents = false;
 }
+

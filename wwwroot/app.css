@@ -122,6 +122,11 @@ main {
         border-bottom-color: rgba(255,255,255,0.12);
     }
 
+/* ADICIONADO PARA TABELAS LARGAS*/
+.table-responsive {
+    overflow-x: auto;
+}
+
 /* Forms (corrige “gigante/sem estilo”) */
 .form-control, .form-select, textarea {
     border-radius: .85rem;
@@ -253,5 +258,51 @@ main {
     color: #a78bfa;
 }
 
+
+
+/* ALTERACAO DA MAINLAYOUT E A SIDEBAR PARA RESPONSIVIDADE MOBILE*/
+/* ===== Mobile: sidebar vira offcanvas sem quebrar o layout desktop ===== */
+
+/* ===== Offcanvas mobile ===== */
+.sidebar-backdrop {
+    display: none;
+}
+@media (max-width: 767.98px) {
+    .page {
+        display: block !important;
+    }
+
+        .page > .sidebar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            height: 100dvh !important;
+            width: 280px !important;
+            z-index: 1040 !important;
+            transform: translateX(-110%) !important;
+            transition: transform 180ms ease !important;
+            overflow-y: auto !important;
+        }
+
+            .page > .sidebar.open {
+                transform: translateX(0) !important;
+            }
+
+    .sidebar-backdrop {
+        display: block !important;
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 1030 !important;
+        background: rgba(0,0,0,.45) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transition: opacity 180ms ease !important;
+    }
+
+        .sidebar-backdrop.show {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+}
 
 
