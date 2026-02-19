@@ -1,4 +1,4 @@
-<div class="top-row ps-3 navbar navbar-dark">
+ï»¿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="https://www.linkedin.com/in/hugosantos27/">Event Driven Architecture</a>
     </div>
@@ -22,7 +22,7 @@
             <NavLink class="nav-link" href="pedidos/criar" @onclick="Navigate">
                 Criar pedido
             </NavLink>
-        </div>
+        </div>  
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="pedidos/cancelar" @onclick="Navigate">
@@ -32,7 +32,7 @@
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="pedidos/documentacao" @onclick="Navigate">
-                Documentação
+                <strong>DocumentaÃ§Ã£o</strong>
             </NavLink>
         </div>
     </nav>
@@ -40,5 +40,6 @@
 @code {
     [Parameter] public EventCallback OnNavigate { get; set; }
     private Task Navigate() => OnNavigate.InvokeAsync();
-}
+}   
+
 

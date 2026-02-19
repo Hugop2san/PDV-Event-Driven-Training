@@ -6,6 +6,11 @@ using PedidosEDA.Domain.Pedidos;
 using PedidosEDA.Infrastructure.Bus;
 using PedidosEDA.Infrastructure.Events;
 using PedidosEDA.Infrastructure.Storage;
+using System.Globalization;
+
+var culture = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 
 
