@@ -3,6 +3,7 @@
 Mini projeto de estudo simulando um **PDV (Ponto de Venda)** com foco em **Event-Driven Architecture (EDA)** aplicada a um **DDD simplificado**, utilizando **Blazor (.NET 8)**.
 
  Demo: https://pdv-event-driven-training.onrender.com/
+ 
 <img width="1920" height="887" alt="image" src="https://github.com/user-attachments/assets/77e4de66-7879-4732-b4d2-9f31d51a7eab" />
 
 ---
