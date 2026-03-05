@@ -1,4 +1,4 @@
-using Application.Pedidos.Handlers;
+﻿using PedidosEDA.Application.Handles;
 using PedidosEDA.Application.Abstractions;
 using PedidosEDA.Application.Pedidos;
 using PedidosEDA.Components;
